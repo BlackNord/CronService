@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CronService.Database\CronService.Database.csproj" />
+    <ProjectReference Include="..\CronService.Jobs\CronService.Jobs.csproj" />
+  </ItemGroup>
+
+</Project>

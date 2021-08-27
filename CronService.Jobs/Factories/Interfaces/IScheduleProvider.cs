@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using CronService.Jobs.Schedules.Intefaces;
 
-namespace CronService.Jobs.Interfaces
+namespace CronService.Jobs.Factories.Interfaces
 {
     public interface IScheduleProvider
     {

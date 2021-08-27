@@ -4,7 +4,9 @@ using CronService.Jobs.Schedules;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using CronService.Jobs.Factories.Interfaces;
 using CronService.Jobs.Interfaces;
+using CronService.Jobs.Schedules.Intefaces;
 
 namespace CronService.Jobs.Factories
 {

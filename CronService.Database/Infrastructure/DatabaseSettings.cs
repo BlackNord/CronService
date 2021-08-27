@@ -3,5 +3,6 @@
     public class DatabaseSettings
     {
         public string ConnectionString { get; set; }
+        public string StoredProcedureName { get; set; }
     }
 }

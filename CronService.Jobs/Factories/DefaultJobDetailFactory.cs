@@ -1,6 +1,7 @@
-﻿using System;
-using CronService.Jobs.Interfaces;
+﻿using CronService.Jobs.Factories.Interfaces;
+using CronService.Jobs.Schedules.Intefaces;
 using Quartz;
+using System;
 
 namespace CronService.Jobs.Factories
 {

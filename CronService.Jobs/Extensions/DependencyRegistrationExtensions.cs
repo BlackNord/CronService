@@ -5,6 +5,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using System;
+using CronService.Jobs.Factories.Interfaces;
 using CronService.Jobs.Interfaces;
 
 namespace CronService.Jobs.Extensions

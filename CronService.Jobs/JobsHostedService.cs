@@ -1,60 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CronService.Jobs.Interfaces;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CronService.Jobs.Factories.Interfaces;
-using CronService.Jobs.Schedules.Interfaces;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Quartz;
-using Quartz.Spi;
 
 namespace CronService.Jobs
 {
     public sealed class JobsHostedService : IHostedService
     {
-        private readonly IJobFactory jobFactory;
-        private readonly ISchedulerFactory schedulerFactory;
+        private readonly ISchedulerContext schedulerContext;
         private readonly IJobDetailsFactory jobDetailsFactory;
         private readonly IJobTriggerFactory jobTriggerFactory;
-        private readonly IEnumerable<IJobSchedule> jobSchedules;
-        private readonly ILogger<JobsHostedService> logger;
-
-        private readonly Lazy<Task<IScheduler>> schedulerLazy;
-
-        public Task<IScheduler> Scheduler => schedulerLazy.Value;
+        private readonly IScheduleProvider scheduleProvider;
 
         public JobsHostedService(
-            IJobFactory jobFactory,
-            ISchedulerFactory schedulerFactory,
+            ISchedulerContext schedulerContext,
             IJobDetailsFactory jobDetailsFactory,
             IJobTriggerFactory jobTriggerFactory,
-            IEnumerable<IJobSchedule> jobSchedules,
-            ILogger<JobsHostedService> logger)
+            IScheduleProvider scheduleProvider)
         {
-            this.schedulerFactory = schedulerFactory ?? throw new ArgumentNullException(nameof(schedulerFactory));
-            this.jobFactory = jobFactory ?? throw new ArgumentNullException(nameof(jobFactory));
-            this.jobSchedules = jobSchedules ?? throw new ArgumentNullException(nameof(jobSchedules));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.schedulerContext = schedulerContext ?? throw new ArgumentNullException(nameof(schedulerContext));
             this.jobDetailsFactory = jobDetailsFactory ?? throw new ArgumentNullException(nameof(jobDetailsFactory));
             this.jobTriggerFactory = jobTriggerFactory ?? throw new ArgumentNullException(nameof(jobTriggerFactory));
-
-            schedulerLazy = new Lazy<Task<IScheduler>>(() => GetScheduler());
-        }
-
-        public async Task<IScheduler> GetScheduler()
-        {
-            var result = await schedulerFactory.GetScheduler();
-            result.JobFactory = jobFactory;
-
-            return result;
+            this.scheduleProvider = scheduleProvider ?? throw new ArgumentNullException(nameof(scheduleProvider));
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var scheduler = await Scheduler;
+            var scheduler = await schedulerContext.Scheduler;
 
-            foreach (var schedule in jobSchedules)
+            foreach (var schedule in scheduleProvider.GetSchedules())
             {
                 var detail = jobDetailsFactory.Create(schedule);
                 var trigger = jobTriggerFactory.Create(schedule);
@@ -67,8 +42,7 @@ namespace CronService.Jobs
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            var scheduler = await Scheduler;
-            await scheduler.Shutdown(true, cancellationToken);
+            await schedulerContext.DisposeAsync();
         }
     }
 }

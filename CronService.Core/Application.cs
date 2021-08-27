@@ -1,27 +1,25 @@
-﻿using System;
+﻿using CronService.Database.Extensions;
 using CronService.Database.Infrastructure;
 using CronService.Jobs.Extensions;
 using CronService.Jobs.Infrastructure;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System;
 using System.Threading.Tasks;
-using CronService.Core.ConfigurationService;
+using CronService.Core.Constants;
+using Microsoft.Extensions.Configuration;
 
 namespace CronService.Core
 {
     public class Application
     {
-        private readonly Lazy<IConfiguration> configuration;
         private readonly Lazy<IHostBuilder> hostBuilder;
 
-        public IConfiguration Configuration => configuration.Value;
         public IHostBuilder HostBuilder => hostBuilder.Value;
 
         public Application()
         {
-            configuration = new Lazy<IConfiguration>(() => CreateConfiguration());
             hostBuilder = new Lazy<IHostBuilder>(() => CreateHostBuilder());
         }
 
@@ -33,28 +31,27 @@ namespace CronService.Core
         private IHostBuilder CreateHostBuilder()
         {
             var builder = new HostBuilder()
-                .ConfigureServices((hostContext, services) =>
+                .ConfigureAppConfiguration(configurationBuilder =>
+                {
+                    configurationBuilder.AddEnvironmentVariables();
+                    configurationBuilder.AddJsonFile(ConfigurationConstants.Files.AppSettings);
+                    configurationBuilder.AddJsonFile(ConfigurationConstants.Files.Common);
+                })
+                .ConfigureServices((context, services)  =>
                 {
                     services.AddOptions();
-                    services.Configure<JobSettings>(Configuration.GetSection(nameof(JobSettings)));
-                    services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
+                    services.Configure<JobSettings>(context.Configuration.GetSection(nameof(JobSettings)));
+                    services.Configure<DatabaseSettings>(context.Configuration.GetSection(nameof(DatabaseSettings)));
 
                     services.AddJobs();
+                    services.AddDatabase();
                 })
-                .UseSerilog((hostContext, config) =>
+                .UseSerilog((context, loggerConfiguration) =>
                 {
-                    config.ReadFrom.Configuration(Configuration);
+                    loggerConfiguration.ReadFrom.Configuration(context.Configuration);
                 });
 
             return builder;
-        }
-
-        private IConfiguration CreateConfiguration()
-        {
-            var configProvider = new ConfigProvider();
-            var config = configProvider.GetConfiguration();
-
-            return config;
         }
     }
 }

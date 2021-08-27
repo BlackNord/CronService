@@ -1,18 +1,17 @@
-﻿using System;
-using CronService.Jobs.Jobs.Base;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Spi;
+using System;
 
 namespace CronService.Jobs.Factories
 {
     public class JobFactory : IJobFactory
     {
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceScopeFactory serviceScopeFactory;
 
-        public JobFactory(IServiceProvider serviceProvider)
+        public JobFactory(IServiceScopeFactory serviceScopeFactory)
         {
-            this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            this.serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
         }
 
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
@@ -27,8 +26,13 @@ namespace CronService.Jobs.Factories
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            var result = serviceProvider.GetRequiredService<JobRunner>();
-            return result;
+            var jobType = bundle.JobDetail.JobType;
+
+            using (var scope = serviceScopeFactory.CreateScope())
+            {
+                var result = scope.ServiceProvider.GetRequiredService(jobType) as IJob;
+                return result;
+            }
         }
 
         public void ReturnJob(IJob job)

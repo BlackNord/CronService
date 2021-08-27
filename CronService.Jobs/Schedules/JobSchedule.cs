@@ -1,5 +1,5 @@
 ﻿using System;
-using CronService.Jobs.Schedules.Interfaces;
+using CronService.Jobs.Interfaces;
 
 namespace CronService.Jobs.Schedules
 {

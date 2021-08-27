@@ -1,12 +1,11 @@
-﻿using System;
-using CronService.Jobs.Factories;
-using CronService.Jobs.Factories.Interfaces;
+﻿using CronService.Jobs.Factories;
 using CronService.Jobs.Jobs;
-using CronService.Jobs.Jobs.Base;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
+using System;
+using CronService.Jobs.Interfaces;
 
 namespace CronService.Jobs.Extensions
 {
@@ -19,19 +18,16 @@ namespace CronService.Jobs.Extensions
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.AddSingleton<IJobDetailsFactory, DefaultJobDetailFactory>();
-            services.AddSingleton<IJobTriggerFactory, DefaultJobTriggerFactory>();
-            services.AddSingleton<IJobFactory, JobFactory>();
-            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-            services.AddSingleton<IScheduleProvider, ScheduleProvider>();
-            services.AddSingleton<JobRunner>();
-
             services.AddHostedService<JobsHostedService>();
 
-            services.AddScoped<DatabaseCallJobJob>();
-            services.AddScoped<LogFileExamineJob>();
+            services.AddSingleton<IJobFactory, JobFactory>();
+            services.AddSingleton<ISchedulerContext, SchedulerContext>();
+            services.AddSingleton<IJobDetailsFactory, DefaultJobDetailFactory>();
+            services.AddSingleton<IJobTriggerFactory, DefaultJobTriggerFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddSingleton<IScheduleProvider, ScheduleProvider>();
 
-            services.AddSingleton(x => x.GetRequiredService<IScheduleProvider>().Schedules);
+            services.AddScoped<DatabaseCallJobJob>();
 
             return services;
         }

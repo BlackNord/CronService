@@ -16,6 +16,7 @@ namespace CronService.Jobs.Jobs
 
         public Task Execute(IJobExecutionContext context)
         {
+            logger.LogInformation("1");
             return Task.CompletedTask;
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CronService.Jobs.Schedules.Interfaces
+namespace CronService.Jobs.Interfaces
 {
     public interface IJobSchedule
     {

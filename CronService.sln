@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronService.Database", "Cro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronService.Jobs", "CronService.Jobs\CronService.Jobs.csproj", "{89476039-C33A-4E13-869B-2A56D041B050}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CronService.Core", "CronService.Core\CronService.Core.csproj", "{4D432DEE-2472-42E2-96B5-BE0967516BA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronService.Core", "CronService.Core\CronService.Core.csproj", "{4D432DEE-2472-42E2-96B5-BE0967516BA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C7F721A3-5F2C-402C-BE5B-17F219055F3D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronService.Database.Tests", "CronService.Database.Tests\CronService.Database.Tests.csproj", "{3D0AD6A2-4372-4447-A3A4-2AB3CE2380D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +37,16 @@ Global
 		{4D432DEE-2472-42E2-96B5-BE0967516BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D432DEE-2472-42E2-96B5-BE0967516BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D432DEE-2472-42E2-96B5-BE0967516BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D0AD6A2-4372-4447-A3A4-2AB3CE2380D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D0AD6A2-4372-4447-A3A4-2AB3CE2380D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D0AD6A2-4372-4447-A3A4-2AB3CE2380D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D0AD6A2-4372-4447-A3A4-2AB3CE2380D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3D0AD6A2-4372-4447-A3A4-2AB3CE2380D6} = {C7F721A3-5F2C-402C-BE5B-17F219055F3D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5EE7B54-3D35-4277-A631-B91C34834F02}

@@ -1,4 +1,5 @@
 ﻿using System;
+using CronService.Database.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CronService.Database.Extensions
@@ -12,7 +13,7 @@ namespace CronService.Database.Extensions
                 throw new ArgumentNullException(nameof(services));
             }
 
-            //services.AddScoped<,>();
+            services.AddScoped<IApplicationDatabaseContext, ApplicationDatabaseContext>();
 
             return services;
         }

@@ -7,7 +7,7 @@ services:
         environment:
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres
-            POSTGRES_DB: compliance_stage
+            POSTGRES_DB: test_database
         ports:
             - 5432:5432
         volumes:

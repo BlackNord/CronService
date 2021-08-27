@@ -28,7 +28,7 @@ namespace CronService.Jobs.Extensions
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
             services.AddSingleton<IScheduleProvider, ScheduleProvider>();
 
-            services.AddScoped<DatabaseCallJobJob>();
+            services.AddScoped<LogFileExamineJob>();
 
             return services;
         }

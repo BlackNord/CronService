@@ -37,9 +37,8 @@ namespace CronService.Jobs.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            logger.LogInformation("job starting...");
-
             var settings = options.Value;
+            logger.LogDebug("job starting...");
 
             var logFileContent = logFileProvider.GetLogFileContent();
             logger.LogDebug($"log file content: {logFileContent}");
@@ -50,7 +49,7 @@ namespace CronService.Jobs.Jobs
             var currentDate = dateTimeProvider.GetUtcNow();
             var difference = currentDate - latestLogFileTimestamp;
 
-            logger.LogInformation($"difference between timestamp from log file and current time (minutes): {difference}");
+            logger.LogInformation($"difference (minutes): {difference}");
             logger.LogInformation($"difference for call (minutes): {settings.DifferenceForCall.ToTimeSpan()}");
             if (difference >= settings.DifferenceForCall.ToTimeSpan())
             {

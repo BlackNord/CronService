@@ -8,6 +8,7 @@ using Serilog;
 using System;
 using System.Threading.Tasks;
 using CronService.Core.Constants;
+using CronService.Utils.Extensions;
 using Microsoft.Extensions.Configuration;
 
 namespace CronService.Core
@@ -45,6 +46,7 @@ namespace CronService.Core
                     services.Configure<StoredProcedureCallSettings>(context.Configuration.GetSection(nameof(StoredProcedureCallSettings)));
 
                     services.AddJobs();
+                    services.AddUtils();
                     services.AddDatabase();
                 })
                 .UseSerilog((context, loggerConfiguration) =>

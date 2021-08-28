@@ -15,7 +15,7 @@ namespace CronService.Database.Extensions
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.AddScoped<IApplicationDatabaseContext, ApplicationDatabaseContext>();
+            services.AddSingleton<IApplicationDatabaseContext, ApplicationDatabaseContext>();
             services.AddScoped<IStoredProcedureExecutor, StoredProcedureExecutor>();
             services.AddScoped<ILogFileProvider, LogFileProvider>();
             services.AddScoped<ILogFileParser, LogFileParser>();

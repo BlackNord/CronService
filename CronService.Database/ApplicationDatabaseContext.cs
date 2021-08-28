@@ -3,6 +3,7 @@ using CronService.Database.Interfaces;
 using Microsoft.Extensions.Options;
 using Npgsql;
 using System;
+using System.Threading;
 
 namespace CronService.Database
 {
@@ -17,7 +18,7 @@ namespace CronService.Database
         {
             this.options = options ?? throw new ArgumentNullException(nameof(options));
 
-            connection = new Lazy<NpgsqlConnection>(() => GetConnection());
+            connection = new Lazy<NpgsqlConnection>(() => GetConnection(), LazyThreadSafetyMode.PublicationOnly);
         }
 
         private NpgsqlConnection GetConnection()
@@ -25,7 +26,7 @@ namespace CronService.Database
             var settings = options.Value;
 
             var result = new NpgsqlConnection(settings.ConnectionString);
-            result.OpenAsync();
+            result.Open();
 
             return result;
         }

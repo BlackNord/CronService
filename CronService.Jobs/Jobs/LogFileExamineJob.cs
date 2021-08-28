@@ -40,19 +40,20 @@ namespace CronService.Jobs.Jobs
             var settings = options.Value;
             logger.LogDebug("job starting...");
 
-            var logFileContent = logFileProvider.GetLogFileContent();
-            logger.LogDebug($"log file content: {logFileContent}");
+            var logFileContent = await logFileProvider.GetLogFileContent();
+            logger.LogDebug($"log file content: '{logFileContent}'");
 
             var latestLogFileTimestamp = logFileParser.GetLatestTimeStamp(logFileContent);
-            logger.LogInformation($"latest timestamp in log file: {latestLogFileTimestamp}");
+            logger.LogInformation($"latest timestamp in log file: '{latestLogFileTimestamp}'");
 
             var currentDate = dateTimeProvider.GetUtcNow();
             var difference = currentDate - latestLogFileTimestamp;
 
-            logger.LogInformation($"difference (minutes): {difference}");
-            logger.LogInformation($"difference for call (minutes): {settings.DifferenceForCall.ToTimeSpan()}");
+            logger.LogInformation($"difference (minutes): '{difference}'");
+            logger.LogInformation($"difference for call (minutes): '{settings.DifferenceForCall.ToTimeSpan()}'");
             if (difference >= settings.DifferenceForCall.ToTimeSpan())
             {
+                logger.LogInformation("running stored procedure...");
                 await storedProcedureExecutor.ExecuteStoredProcedure();
             }
         }

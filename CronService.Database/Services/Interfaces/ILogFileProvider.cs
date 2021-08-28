@@ -1,7 +1,9 @@
-﻿namespace CronService.Database.Services.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace CronService.Database.Services.Interfaces
 {
     public interface ILogFileProvider
     {
-        string GetLogFileContent();
+        Task<string> GetLogFileContent();
     }
 }

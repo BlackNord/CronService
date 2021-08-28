@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Threading.Tasks;
 using CronService.Database.Infrastructure;
 using CronService.Database.Interfaces;

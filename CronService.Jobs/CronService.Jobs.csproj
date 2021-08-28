@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CronService.Database\CronService.Database.csproj" />
+    <ProjectReference Include="..\CronService.Utils\CronService.Utils.csproj" />
   </ItemGroup>
 
 </Project>

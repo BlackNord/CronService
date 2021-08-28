@@ -1,12 +1,11 @@
 ﻿using CronService.Jobs.Factories;
+using CronService.Jobs.Factories.Interfaces;
 using CronService.Jobs.Jobs;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using System;
-using CronService.Jobs.Factories.Interfaces;
-using CronService.Jobs.Interfaces;
 
 namespace CronService.Jobs.Extensions
 {
@@ -22,7 +21,6 @@ namespace CronService.Jobs.Extensions
             services.AddHostedService<JobsHostedService>();
 
             services.AddSingleton<IJobFactory, JobFactory>();
-            services.AddSingleton<ISchedulerContext, SchedulerContext>();
             services.AddSingleton<IJobDetailsFactory, DefaultJobDetailFactory>();
             services.AddSingleton<IJobTriggerFactory, DefaultJobTriggerFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();

@@ -42,6 +42,7 @@ namespace CronService.Core
                     services.AddOptions();
                     services.Configure<JobSettings>(context.Configuration.GetSection(nameof(JobSettings)));
                     services.Configure<DatabaseSettings>(context.Configuration.GetSection(nameof(DatabaseSettings)));
+                    services.Configure<StoredProcedureCallSettings>(context.Configuration.GetSection(nameof(StoredProcedureCallSettings)));
 
                     services.AddJobs();
                     services.AddDatabase();

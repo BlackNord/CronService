@@ -1,26 +1,32 @@
-﻿using CronService.Jobs.Interfaces;
+﻿using CronService.Jobs.Factories.Interfaces;
 using Microsoft.Extensions.Hosting;
+using Quartz;
+using Quartz.Spi;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CronService.Jobs.Factories.Interfaces;
 
 namespace CronService.Jobs
 {
     public sealed class JobsHostedService : IHostedService
     {
-        private readonly ISchedulerContext schedulerContext;
+        private readonly IJobFactory jobFactory;
+        private readonly ISchedulerFactory schedulerFactory;
         private readonly IJobDetailsFactory jobDetailsFactory;
         private readonly IJobTriggerFactory jobTriggerFactory;
         private readonly IScheduleProvider scheduleProvider;
 
+        private IScheduler Scheduler { get; set; }
+
         public JobsHostedService(
-            ISchedulerContext schedulerContext,
+            IJobFactory jobFactory,
+            ISchedulerFactory schedulerFactory,
             IJobDetailsFactory jobDetailsFactory,
             IJobTriggerFactory jobTriggerFactory,
             IScheduleProvider scheduleProvider)
         {
-            this.schedulerContext = schedulerContext ?? throw new ArgumentNullException(nameof(schedulerContext));
+            this.jobFactory = jobFactory ?? throw new ArgumentNullException(nameof(jobFactory));
+            this.schedulerFactory = schedulerFactory ?? throw new ArgumentNullException(nameof(schedulerFactory));
             this.jobDetailsFactory = jobDetailsFactory ?? throw new ArgumentNullException(nameof(jobDetailsFactory));
             this.jobTriggerFactory = jobTriggerFactory ?? throw new ArgumentNullException(nameof(jobTriggerFactory));
             this.scheduleProvider = scheduleProvider ?? throw new ArgumentNullException(nameof(scheduleProvider));
@@ -28,22 +34,23 @@ namespace CronService.Jobs
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var scheduler = await schedulerContext.Scheduler;
+            Scheduler = await schedulerFactory.GetScheduler(cancellationToken);
+            Scheduler.JobFactory = jobFactory;
 
             foreach (var schedule in scheduleProvider.GetSchedules())
             {
                 var detail = jobDetailsFactory.Create(schedule);
                 var trigger = jobTriggerFactory.Create(schedule);
 
-                await scheduler.ScheduleJob(detail, trigger, cancellationToken);
+                await Scheduler.ScheduleJob(detail, trigger, cancellationToken);
             }
 
-            await scheduler.Start(cancellationToken);
+            await Scheduler.Start(cancellationToken);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await schedulerContext.DisposeAsync();
+            await Scheduler.Shutdown(cancellationToken);
         }
     }
 }

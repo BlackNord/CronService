@@ -1,12 +1,11 @@
-﻿using CronService.Jobs.Infrastructure;
+﻿using CronService.Jobs.Factories.Interfaces;
+using CronService.Jobs.Infrastructure;
 using CronService.Jobs.Jobs;
 using CronService.Jobs.Schedules;
+using CronService.Jobs.Schedules.Intefaces;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using CronService.Jobs.Factories.Interfaces;
-using CronService.Jobs.Interfaces;
-using CronService.Jobs.Schedules.Intefaces;
 
 namespace CronService.Jobs.Factories
 {
@@ -26,7 +25,7 @@ namespace CronService.Jobs.Factories
             {
                 new JobSchedule()
                 {
-                    JobType = typeof(DatabaseCallJobJob),
+                    JobType = typeof(LogFileExamineJob),
                     CronExpression = settings.RepeatInterval
                 }
             };

@@ -4,5 +4,6 @@
     {
         public string ConnectionString { get; set; }
         public string StoredProcedureName { get; set; }
+        public string LogFilePath { get; set; }
     }
 }

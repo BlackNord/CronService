@@ -49,7 +49,7 @@ namespace CronService.Jobs.Jobs
             var currentDate = dateTimeProvider.GetUtcNow();
             var difference = currentDate - latestLogFileTimestamp;
 
-            logger.LogInformation($"difference (minutes): '{difference}'");
+            logger.LogInformation($"difference: '{difference:g}'");
             logger.LogInformation($"difference for call (minutes): '{settings.DifferenceForCall.ToTimeSpan()}'");
             if (difference >= settings.DifferenceForCall.ToTimeSpan())
             {

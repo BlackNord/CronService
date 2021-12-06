@@ -50,13 +50,14 @@ namespace CronService.Database.Tests
             connection.Open();
             var settings = new DatabaseSettings()
             {
-                StoredProcedureName = "test_procedure"
+                StoredProcedureName = "test_procedure",
+                Query = "SELECT public.test_procedure();"
             };
 
             applicationDatabaseContext.Connection.Returns(connection);
             options.Value.Returns(settings);
 
-            await storedProcedureExecutor.ExecuteStoredProcedure();
+            await storedProcedureExecutor.ExecuteQuery();
 
             await connection.CloseAsync();
             Assert.Pass();

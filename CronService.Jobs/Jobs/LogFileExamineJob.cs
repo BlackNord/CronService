@@ -53,8 +53,8 @@ namespace CronService.Jobs.Jobs
             logger.LogInformation($"difference for call (minutes): '{settings.DifferenceForCall.ToTimeSpan()}'");
             if (difference >= settings.DifferenceForCall.ToTimeSpan())
             {
-                logger.LogInformation("running stored procedure...");
-                await storedProcedureExecutor.ExecuteStoredProcedure();
+                logger.LogInformation("running query...");
+                await storedProcedureExecutor.ExecuteQuery();
             }
         }
     }

@@ -21,12 +21,12 @@ namespace CronService.Database.Services
             this.applicationDatabaseContext = applicationDatabaseContext ?? throw new ArgumentNullException(nameof(applicationDatabaseContext));
         }
 
-        public async Task ExecuteStoredProcedure()
+        public async Task ExecuteQuery()
         {
             var settings = options.Value;
             var connection = applicationDatabaseContext.Connection;
 
-            using (var command = new NpgsqlCommand($"CALL {settings.StoredProcedureName}()", connection))
+            using (var command = new NpgsqlCommand(settings.Query, connection))
             {
                 await command.ExecuteNonQueryAsync();
             }

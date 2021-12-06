@@ -5,11 +5,11 @@ create table test (
 	created_at timestamp 
 	);
 
-create or replace procedure test_procedure()
-	language plpgsql
+create or replace function test_procedure()
+	returns void
 	as $$
 	begin
 		INSERT INTO public.test(created_at)
 		VALUES (CURRENT_TIMESTAMP);
-		commit;
 	end;$$
+	language plpgsql

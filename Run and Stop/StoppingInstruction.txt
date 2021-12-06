@@ -1,0 +1,4 @@
+The commands below are used for stopping a background CronService process:
+
+ps -ef | grep CronService.Presentation	// to find PID of background process (where it is "run --project")
+kill PID				// to stop the process

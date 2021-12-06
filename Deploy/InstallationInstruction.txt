@@ -1,0 +1,17 @@
+The commands below are used for setting up and running the shell script file InstallCronService.sh:
+(In the terminal from the directory where it is)
+
+1. Script is made runnable
+2. Convertation Windows-style line endings to Unix-style
+3. Running script
+
+If you want to change or check the context of the installation process of CronService, 
+follow the comments inside InstallCronService.sh file
+
+*****************************************************************************
+
+chmod +x InstallCronService.sh		
+sed -i -e 's/\r$//' InstallCronService.sh
+./InstallCronService.sh
+
+*****************************************************************************

@@ -1,0 +1,39 @@
+This script is running after the InstallCronService.sh script
+
+*****************************************************************************
+
+Before the configuration you need to set up your database with a stored procedure
+
+*****************************************************************************
+
+Before the running you need to confiruge the config file of CronService (appsettings.json):
+The description of fields below is in the CronService\CronService.Presentation\appsettings.json
+
+DatabaseSettings.ConnectionString 		- set connection string to your database
+DatabaseSettings.StoredProcedureName 		- set the name of the calling procedure (now it is a plug)
+DatabaseSettings.Query				- set the query-string to run
+DatabaseSettings.LogFilePath 			- set the path of the log file
+
+StoredProcedureCallSettings.DifferenceForCall 	- set the difference of time for calling procedure
+
+JobSettings.RepeatInterval 			- set the interval of parsing the log file to get new time value
+
+*****************************************************************************
+
+The commands below are used for setting up and running the shell script file RunCronService.sh:
+(In the terminal from the directory where it is)
+
+1. Script is made runnable
+2. Convertation Windows-style line endings to Unix-style
+3. Running script
+
+If you want to change or check the context of the running process of CronService, 
+follow the comments inside RunCronService.sh file
+
+*****************************************************************************
+
+chmod +x RunCronService.sh		
+sed -i -e 's/\r$//' RunCronService.sh
+./RunCronService.sh
+
+*****************************************************************************

@@ -13,5 +13,5 @@ For Linux:
 
 For testing:
 - Testing/testLogFile to see a format and to do test of the work
-- Testing/configureTestDB.sql to configure your database before testing on creating table and function
+- Testing/configureTestDB.sql to configure your database (postgresql) before testing on creating table and function
 - CronService.Presentation/appsettings.json to configure all mutable parameters

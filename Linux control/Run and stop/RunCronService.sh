@@ -6,7 +6,7 @@
 # You can change this section manualy
 # If you want to run CronService in the background, comment the line below
 
-# dotnet run --project ../../CronService/CronService.Presentation
+# dotnet run --project ../../CronService.Presentation
 
 #############################################################################
 # Section of running CronService in the background
@@ -14,7 +14,7 @@
 # You can change this section manualy
 # If you want to run CronService in the console, comment the line below
 
-nohup dotnet run --project ../../CronService/CronService.Presentation command &
+nohup dotnet run --project ../../CronService.Presentation command &
 
 #############################################################################
 
